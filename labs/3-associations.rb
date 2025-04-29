@@ -13,12 +13,52 @@ Activity.destroy_all
 #   into the activities table.  Follow the steps below to insert
 #   activity data in the database.  Afterwards, display a
 #   single salesperson's activity data:
+puts "Activities: #{Activity.all.count}"
+puts "Contacts: #{Contact.all.count}"
+
+ben=Salesperson.find_by({"first_name"=>"Ben"})
+p ben
+
+tim=Contact.find_by({"first_name"=>"Tim"})
+p tim
+
+craig=Contact.find_by({"first_name"=>"Craig"})
+p craig
+
+jeff=Contact.find_by({"first_name"=>"Jeff"})
+p jeff
 
 # 1. insert 3 rows in the activities table with relationships to
 # a single salesperson and 2 different contacts
 
+activity = Activity.new
+
+activity["salesperson_id"]= ben["id"]
+activity["contact_id"]= tim["id"]
+activity["note"]= "quick checkin over facetime"
+activity.save
+
+activity = Activity.new
+
+activity["salesperson_id"]= ben["id"]
+activity["contact_id"]= craig["id"]
+activity["note"]= "hello"
+activity.save
+
+
+activity = Activity.new
+
+activity["salesperson_id"]= ben["id"]
+activity["contact_id"]= tim["id"]
+activity["note"]= "met at Cupertino"
+activity.save
+
+
+
 # 2. Display all the activities between the salesperson used above
 # and one of the contacts (sample output below):
+activities = Activity.where({"salesperson_id"=>ben["id"]})
+p "Activities: #{activities.count}"
 
 # ---------------------------------
 # Activities between Ben and Tim Cook:
@@ -28,6 +68,16 @@ Activity.destroy_all
 # CHALLENGE:
 # 3. Similar to above, but display all of the activities for the salesperson
 # across all contacts (sample output below):
+
+ben_activities= Activity.where({"Salesperson_id"=>ben["id"], "Contact_id"=>tim["id"]})
+p "Ben Activities : #{ben_activities.count}"
+
+for activity in ben_activities
+    #name= salespeople[activity["salesperson_id"]]
+    p "name #{activity["note"]}"
+
+
+end
 
 # ---------------------------------
 # Ben's Activities:
